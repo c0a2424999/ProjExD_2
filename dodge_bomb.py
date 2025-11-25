@@ -30,12 +30,26 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 
 def gameover(screen: pg.Surface) -> None:
     """ゲームオーバーを表示する関数"""
-    screen = pg.Surface((20, 20))
-    screen.set_alpha(0, flags=0)
-    screen.set_alpha(0)
-    font = pg.font.Font(None, 150)
-    text = font.render("GAME OVER", True, (255, 255, 255))
+    go_img = pg.Surface((WIDTH, HEIGHT))
+    go_img.fill((0, 0, 0))
+    # pg.Rect(go_img, (0, 0, WIDTH, HEIGHT))
+    go_img.set_alpha(200)
+    screen.blit(go_img, (0, 0))
+    font = pg.font.Font(None, 70)
+    txt = font.render("GAME OVER", True, (255, 255, 255))
+    txt_rct = txt.get_rect(center=(WIDTH / 2, HEIGHT / 2))
+    
+    screen.blit(txt, txt_rct)
+    kk_gameover1 = pg.Surface((200, 200))
+    kk_gameover2 = pg.Surface((200, 200))
+    kk_gameover1 = pg.transform.rotozoom(pg.image.load("fig/0.png"), 0, 1.0)
+    kk_gameover2 = pg.transform.rotozoom(pg.image.load("fig/0.png"), 0, 1.0)
+    screen.blit(kk_gameover1, (350, HEIGHT - 360))
+    screen.blit(kk_gameover2, (700, HEIGHT - 360))
+
+    
     pg.display.update()
+    pg.time.wait(5000)
 
 
 def main():
@@ -61,6 +75,7 @@ def main():
         
         if kk_rct.colliderect(bb_rct):  # こうかとんと爆弾が衝突したら
             print("ゲームオーバー")
+            gameover(screen)
             return
         
         screen.blit(bg_img, [0, 0]) 
