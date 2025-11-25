@@ -28,6 +28,16 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     return yoko, tate
 
 
+def gameover(screen: pg.Surface) -> None:
+    """ゲームオーバーを表示する関数"""
+    screen = pg.Surface((20, 20))
+    screen.set_alpha(0, flags=0)
+    screen.set_alpha(0)
+    font = pg.font.Font(None, 150)
+    text = font.render("GAME OVER", True, (255, 255, 255))
+    pg.display.update()
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -48,6 +58,11 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        
+        if kk_rct.colliderect(bb_rct):  # こうかとんと爆弾が衝突したら
+            print("ゲームオーバー")
+            return
+        
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
